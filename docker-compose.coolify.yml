@@ -37,15 +37,43 @@ services:
       retries: 5
       start_period: 10s
     volumes:
-      # Shared LanceDB data (used when VECTOR_STORE_TYPE=lancedb)
       - lancedb-data:/app/lancedb_data
-      # -- Development: mount source for live reload --
-      # - .:/app
-      # - venv:/app/.venv
     environment:
       - DB_CONNECTION_URI=postgresql+psycopg://honcho:${POSTGRES_PASSWORD}@database:5432/honcho
       - CACHE_URL=redis://redis:6379/0?suppress=true
       - CACHE_ENABLED=true
+      # NVIDIA NIM is OpenAI-compatible. Set only NVIDIA_API_KEY in Coolify.
+      - LLM_OPENAI_API_KEY=${NVIDIA_API_KEY}
+      - LLM_OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1
+      - AUTH_USE_AUTH=true
+      - AUTH_JWT_SECRET=${AUTH_JWT_SECRET}
+      # NVIDIA's embedding API needs extra request fields not sent by Honcho yet.
+      # Disable embeddings for initial deployment; LLM reasoning still works.
+      - EMBED_MESSAGES=false
+      - SUMMARY_MODEL_CONFIG__TRANSPORT=openai
+      - SUMMARY_MODEL_CONFIG__MODEL=nvidia/nemotron-3.5-lightning-30b-a3b
+      - SUMMARY_MODEL_CONFIG__OVERRIDES__BASE_URL=https://integrate.api.nvidia.com/v1
+      - DIALECTIC_LEVELS__minimal__MODEL_CONFIG__TRANSPORT=openai
+      - DIALECTIC_LEVELS__minimal__MODEL_CONFIG__MODEL=nvidia/nemotron-3.5-lightning-30b-a3b
+      - DIALECTIC_LEVELS__minimal__MODEL_CONFIG__OVERRIDES__BASE_URL=https://integrate.api.nvidia.com/v1
+      - DIALECTIC_LEVELS__low__MODEL_CONFIG__TRANSPORT=openai
+      - DIALECTIC_LEVELS__low__MODEL_CONFIG__MODEL=nvidia/nemotron-3.5-lightning-30b-a3b
+      - DIALECTIC_LEVELS__low__MODEL_CONFIG__OVERRIDES__BASE_URL=https://integrate.api.nvidia.com/v1
+      - DIALECTIC_LEVELS__medium__MODEL_CONFIG__TRANSPORT=openai
+      - DIALECTIC_LEVELS__medium__MODEL_CONFIG__MODEL=nvidia/nemotron-3.5-lightning-30b-a3b
+      - DIALECTIC_LEVELS__medium__MODEL_CONFIG__OVERRIDES__BASE_URL=https://integrate.api.nvidia.com/v1
+      - DIALECTIC_LEVELS__high__MODEL_CONFIG__TRANSPORT=openai
+      - DIALECTIC_LEVELS__high__MODEL_CONFIG__MODEL=nvidia/nemotron-3.5-lightning-30b-a3b
+      - DIALECTIC_LEVELS__high__MODEL_CONFIG__OVERRIDES__BASE_URL=https://integrate.api.nvidia.com/v1
+      - DIALECTIC_LEVELS__max__MODEL_CONFIG__TRANSPORT=openai
+      - DIALECTIC_LEVELS__max__MODEL_CONFIG__MODEL=nvidia/nemotron-3.5-lightning-30b-a3b
+      - DIALECTIC_LEVELS__max__MODEL_CONFIG__OVERRIDES__BASE_URL=https://integrate.api.nvidia.com/v1
+      - DREAM_DEDUCTION_MODEL_CONFIG__TRANSPORT=openai
+      - DREAM_DEDUCTION_MODEL_CONFIG__MODEL=nvidia/nemotron-3.5-lightning-30b-a3b
+      - DREAM_DEDUCTION_MODEL_CONFIG__OVERRIDES__BASE_URL=https://integrate.api.nvidia.com/v1
+      - DREAM_INDUCTION_MODEL_CONFIG__TRANSPORT=openai
+      - DREAM_INDUCTION_MODEL_CONFIG__MODEL=nvidia/nemotron-3.5-lightning-30b-a3b
+      - DREAM_INDUCTION_MODEL_CONFIG__OVERRIDES__BASE_URL=https://integrate.api.nvidia.com/v1
     env_file:
       - path: .env
         required: false
@@ -75,6 +103,13 @@ services:
       - DB_CONNECTION_URI=postgresql+psycopg://honcho:${POSTGRES_PASSWORD}@database:5432/honcho
       - CACHE_URL=redis://redis:6379/0?suppress=true
       - CACHE_ENABLED=true
+      - LLM_OPENAI_API_KEY=${NVIDIA_API_KEY}
+      - LLM_OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1
+      - AUTH_USE_AUTH=true
+      - AUTH_JWT_SECRET=${AUTH_JWT_SECRET}
+      - DERIVER_MODEL_CONFIG__TRANSPORT=openai
+      - DERIVER_MODEL_CONFIG__MODEL=nvidia/nemotron-3.5-lightning-30b-a3b
+      - DERIVER_MODEL_CONFIG__OVERRIDES__BASE_URL=https://integrate.api.nvidia.com/v1
     env_file:
       - path: .env
         required: false

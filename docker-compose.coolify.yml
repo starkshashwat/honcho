@@ -39,7 +39,7 @@ services:
     volumes:
       - lancedb-data:/app/lancedb_data
     environment:
-      - DB_CONNECTION_URI=postgresql+psycopg://honcho:${POSTGRES_PASSWORD}@database:5432/honcho
+      - DB_CONNECTION_URI=postgresql+psycopg://honcho:${POSTGRES_PASSWORD_URI}@database:5432/honcho
       - CACHE_URL=redis://redis:6379/0?suppress=true
       - CACHE_ENABLED=true
       # NVIDIA NIM is OpenAI-compatible. Set only NVIDIA_API_KEY in Coolify.
@@ -100,7 +100,7 @@ services:
       # - .:/app
       # - venv:/app/.venv
     environment:
-      - DB_CONNECTION_URI=postgresql+psycopg://honcho:${POSTGRES_PASSWORD}@database:5432/honcho
+      - DB_CONNECTION_URI=postgresql+psycopg://honcho:${POSTGRES_PASSWORD_URI}@database:5432/honcho
       - CACHE_URL=redis://redis:6379/0?suppress=true
       - CACHE_ENABLED=true
       - LLM_OPENAI_API_KEY=

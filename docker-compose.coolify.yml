@@ -43,10 +43,10 @@ services:
       - CACHE_URL=redis://redis:6379/0?suppress=true
       - CACHE_ENABLED=true
       # NVIDIA NIM is OpenAI-compatible. Set only NVIDIA_API_KEY in Coolify.
-      - LLM_OPENAI_API_KEY=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
+      - LLM_OPENAI_API_KEY=
       - LLM_OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1
       - AUTH_USE_AUTH=true
-      - AUTH_JWT_SECRET=ae8741ea86043bb843ad999d14a82a74fce389c91c8cfb2f21074a3beb8e457b
+      - AUTH_JWT_SECRET=
       # NVIDIA's embedding API needs extra request fields not sent by Honcho yet.
       # Disable embeddings for initial deployment; LLM reasoning still works.
       - EMBED_MESSAGES=false
@@ -103,10 +103,10 @@ services:
       - DB_CONNECTION_URI=postgresql+psycopg://honcho:${POSTGRES_PASSWORD}@database:5432/honcho
       - CACHE_URL=redis://redis:6379/0?suppress=true
       - CACHE_ENABLED=true
-      - LLM_OPENAI_API_KEY=${NVIDIA_API_KEY}
+      - LLM_OPENAI_API_KEY=
       - LLM_OPENAI_BASE_URL=https://integrate.api.nvidia.com/v1
       - AUTH_USE_AUTH=true
-      - AUTH_JWT_SECRET=${AUTH_JWT_SECRET}
+      - AUTH_JWT_SECRET=
       - DERIVER_MODEL_CONFIG__TRANSPORT=openai
       - DERIVER_MODEL_CONFIG__MODEL=nvidia/nemotron-3.5-lightning-30b-a3b
       - DERIVER_MODEL_CONFIG__OVERRIDES__BASE_URL=https://integrate.api.nvidia.com/v1
